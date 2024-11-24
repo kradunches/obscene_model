@@ -1,7 +1,7 @@
 # obscene_model
 In this project a model trained on a dataset with obscene language determines whether the text entered by the user in html form is offensive or not.
 
-Data for model was taken from Kaggle repository:
+Data for model was taken from Kaggle repository:<br>
 https://www.kaggle.com/competitions/jigsaw-multilingual-toxic-comment-classification/overview
 
 # Files
@@ -14,5 +14,5 @@ https://www.kaggle.com/competitions/jigsaw-multilingual-toxic-comment-classifica
 # Usage
 1. Clone repository on your local computer: ```git clone https://github.com/kradunches/obscene_model```
 2. Run the Flask server: ```python server.py```
-3. Wait for the server to start and then open your browser to '''localhost:5000'''
+3. Wait for the server to start and then open your browser to ```localhost:5000```
 4. If entered message is obscene it will be highlighted in red color, and if the message does not contains obscene language it will be highlighted in grey color
