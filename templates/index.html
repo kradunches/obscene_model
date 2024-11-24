@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comment Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .comments {
+            margin-top: 20px;
+        }
+        .comment {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .obscene {
+            background-color: #ffcccc;
+        }
+
+        .text-info {
+            margin: 15px 0;
+        }
+        .input-comment {
+            margin: 15px 0;
+            height: 30px;
+            width: 600px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Input some text to classify obscene language!</h1>
+    <div class="text-info">Model accuracy: {{ accuracy }}</div>
+    <form id="commentForm">
+        <input class="input-comment" type="text" id="commentInput" required><br>
+        <button type="submit">Add Comment</button>
+    </form>
+
+    <div class="comments">
+        <h2>Comments:</h2>
+        <div id="commentList"></div>
+    </div>
+
+    <script>
+        const commentForm = document.getElementById('commentForm');
+        const commentInput = document.getElementById('commentInput');
+        const commentList = document.getElementById('commentList');
+
+        const commentAddition = async function() {
+            const commentText = commentInput.value;
+
+            const response = await fetch('/check_comment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ comment: commentText })
+            });
+
+            const result = await response.json();
+            const isObscene = result.is_obscene;
+
+            const commentDiv = document.createElement('div');
+            commentDiv.className = 'comment' + (isObscene ? ' obscene' : '');
+            commentDiv.textContent = commentText;
+
+            commentList.insertBefore(commentDiv, commentList.firstChild);
+
+            commentInput.value = '';
+        }
+
+        commentForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            commentAddition();
+        });
+
+        commentForm.addEventListener('keypress', function (event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            commentAddition();
+        }
+        });
+    </script>
+</body>
+</html>
